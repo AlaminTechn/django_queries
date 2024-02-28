@@ -4,6 +4,6 @@ from .views import home, AuthorViewAPI, AuthorDetailsAPIView, ArticlesDetailsAPI
 urlpatterns = [
     path('', home),
     path('authors/', AuthorViewAPI.as_view()),
-    path('author/"<slug:str>"', AuthorDetailsAPIView.as_view()),
-    path('articles/"<int:pk>"', ArticlesDetailsAPIView.as_view()),
+    path('author/<str:name>', AuthorDetailsAPIView.as_view()),
+    path('articles/<int:pk>', ArticlesDetailsAPIView.as_view()),
 ]

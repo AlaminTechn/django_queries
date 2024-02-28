@@ -43,25 +43,24 @@ class AuthorViewAPI(APIView):
 
 
 class AuthorDetailsAPIView(APIView):
-
-    def get_object(self, slug):
+    def get_object(self, name):
         try:
-            return Author.objects.get(name=slug)
+            return Author.objects.get(name=name)
         except Author.DoesNotExist:
             raise Http404
 
-    def get(self, slug):
+    def get(self, request, name, *args, **kwargs):
         result = {
                 "message": "Success",
                 "status":  HTTP_200_OK,
                 "data":    []
         }
-        author = self.get_object(slug)
+        author = self.get_object(name)
         serializer = AuthorDetailsSerializer(author)
         result['data'] = serializer.data
         return Response(result)
 
-    def post(self, request, slug):
+    def post(self, request, name, *args, **kwargs):
         result = {
                 "message": "Successfully created a new author",
                 "status":  HTTP_200_OK,
@@ -74,7 +73,7 @@ class AuthorDetailsAPIView(APIView):
                 "errors":  []
         }
 
-        author_instance = self.get_object(slug)
+        author_instance = self.get_object(name)
         serializer = AuthorDetailsSerializer(author_instance, data=request.data)
 
         if serializer.is_valid():
@@ -85,10 +84,14 @@ class AuthorDetailsAPIView(APIView):
         result_error['errors'] = serializer.errors
         return Response(result_error)
 
-    def delete(self, slug):
-        author_instance = self.get_object(slug)
+    def delete(self, name):
+        author_instance = self.get_object(name)
         author_instance.delete()
-        return Response(status=HTTP_204_NO_CONTENT)
+        result = {
+                "message": "Author deleted ",
+                "status": HTTP_204_NO_CONTENT
+        }
+        return Response(result)
 
 
 class ArticlesDetailsAPIView(APIView):
@@ -137,4 +140,8 @@ class ArticlesDetailsAPIView(APIView):
         article_instance = self.get_object(pk)
         article_instance.delete()
 
-        return Response(status=HTTP_204_NO_CONTENT)
+        result = {
+                "message": "Author deleted ",
+                "status":  HTTP_204_NO_CONTENT
+        }
+        return Response(result)
