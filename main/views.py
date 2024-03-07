@@ -168,7 +168,7 @@ class ArticlesDetailsAPIView(APIView):
         article_instance.delete()
 
         result = {
-                "message": "Author deleted ",
+                "message": "Author deleted Successfully",
                 "status":  HTTP_204_NO_CONTENT
         }
         return Response(result)
