@@ -1,0 +1,56 @@
+  version: '3'
+
+  services:
+    django_app:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      environment:
+        ROOT_PASSWORD: 123
+        DB_NAME: queries_orm
+        DB_USER: root
+        DB_PASSWORD: 123
+        DB_HOST: mysql_db
+        DB_PORT: 3306
+        DJANGO_SUPERUSER_USERNAME: admin
+        DJANGO_SUPERUSER_PASSWORD: 1234
+        DJANGO_SUPERUSER_EMAIL: admin@example.com
+        DJANGO_SETTINGS_MODULE: advanced_queries.settings
+
+      volumes:
+        - ./django_app:/app
+
+      ports:
+        - "8001:8000"
+
+      depends_on:
+          - mysql_db
+
+    mysql_db:
+      image: mysql:8.0
+      restart: on-failure
+      environment:
+        MYSQL_ROOT_PASSWORD: '123'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'allowed'
+        MYSQL_RANDOM_ROOT_PASSWORD: 'random'
+        MYSQL_DATABASE: 'queries_orm'
+#        MYSQL_USER: 'root'
+        MYSQL_PASSWORD: '123'
+        
+      ports:
+        - "3307:3306"
+
+      volumes:
+        - mysql_data:/var/lib/mysql
+
+
+  volumes:
+    mysql_data:
+    django_app:
+    
+
+
+
+
+
+

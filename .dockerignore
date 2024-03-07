@@ -1,0 +1,14 @@
+# Database file
+db.sqlite3
+
+# Virtual environment directory
+venv
+
+# Log files
+*.log
+
+# IDE and text editor directories and files
+.vscode
+.idea
+.git
+.gitignore
